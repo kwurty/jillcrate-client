@@ -1,7 +1,7 @@
 // Import basic React components 
 import React, { useContext, useState, useEffect } from 'react';
 // Import router components
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 // Import global socket component
 import { SocketContext } from '../utilities/connect';
 

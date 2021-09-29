@@ -1,23 +1,20 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
-import { SocketContext } from '../utilities/connect';
+import React from 'react'
 
-export default function Players() {
-    const socket = useContext(SocketContext);
-    const [players, setPlayers] = useState()
-
-    useEffect(() => {
-        socket.emit('getPlayers');
-        socket.on("returnPlayers", (currentPlayers) => {
-            setPlayers(currentPlayers)
-        })
-    })
+export default function Players(props) {
     return (
-        <div>
-            {players.map((player) => {
-                return (
-                    <div> {player.name}</div>
-                )
-            })}
+        <div className="bg-gray-800 rounded-lg px-6 py-6">
+            <h1 className="text-white text-3xl"> PLAYERS</h1>
+            {props && props.players && props.players.length > 0 ?
+                (
+                    <div className="b">
+                        {props.players.map(player => {
+                            return <h3 key={player.id} className="text-white text-blue-400 font-bold py-5 w-full"> {player.name} </h3>
+                        })}
+                    </div>
+                ) : (
+                    ""
+                )}
+
         </div>
     )
 }
