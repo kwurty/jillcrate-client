@@ -44,8 +44,8 @@ export default function Join() {
                 inRoom && gameSettings ?
                     (
                         <div>
+                            <DisplaySettings gameSettings={gameSettings} />
                             <Players players={gameSettings.PLAYERS} />
-                            <DisplaySettings />
                         </div>
                     )
                     :

@@ -7,6 +7,7 @@ export default function Host() {
     const socket = useContext(SocketContext);
     const [gameCode, setGameCode] = useState('');
     const [gameSettings, setGameSettings] = useState(false);
+    const [displaySettings, setDisplaySettings] = useState(false);
     const [username, setUsername] = useState('');
     const [submittedName, setSubmittedName] = useState(false);
 
@@ -36,10 +37,12 @@ export default function Host() {
         socket.on('connect', () => {
         })
         socket.on('returnRoomCode', (res) => {
+            // When the room code is returned, we are going to set the room code then request the game settings
             setGameCode(res);
+            socket.emit('viewGameSettings', gameCode);
         })
         socket.on('returnGameSettings', (settings) => {
-            setGameSettings(JSON.parse(settings));
+            setDisplaySettings(JSON.parse(settings));
         })
         socket.on('userJoinRoom', (players) => {
 
@@ -49,7 +52,11 @@ export default function Host() {
 
     useEffect(() => {
         socket.emit('updateGameSettings', gameCode, JSON.stringify(gameSettings));
-    }, [gameSettings])
+    }, [gameSettings]);
+
+    useEffect(() => {
+        setDisplaySettings(gameSettings)
+    }, [gameSettings]);
 
     return (
         <div className="w-full min-h-screen flex justify-center items-center flex-col bg-gray-500">
@@ -106,13 +113,13 @@ export default function Host() {
                                 </input> seconds
                             </div>
                             <div className="block">
-                                Max players - {gameSettings.MAX_PLAYERS}
+                                Max players - {displaySettings.MAX_PLAYERS}
                             </div>
                             <div className="block">
-                                Time to Answer - {gameSettings.ANSWER_TIMER}
+                                Time to Answer - {displaySettings.ANSWER_TIMER}
                             </div>
                             <div className="block">
-                                Game Mode? - {gameSettings.GAME_MODE}
+                                Game Mode? - {displaySettings.GAME_MODE}
                             </div>
 
 

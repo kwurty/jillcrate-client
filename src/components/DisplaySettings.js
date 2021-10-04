@@ -1,23 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { SocketContext } from '../utilities/connect';
+import React from 'react'
 
-export default function DisplaySettings() {
-    const socket = useContext(SocketContext);
-    const [gameSettings, setGameSettings] = useState(null);
+export default function DisplaySettings(props) {
 
-    useEffect(() => {
-        socket.on('connect', () => {
-
-        });
-
-        socket.on('returnGameSettings', (settings) => {
-            setGameSettings(JSON.parse(settings));
-        });
-
-    }, []);
     return (
         <div>
-            {gameSettings.MAX_PLAYERS}
+            {props && props.gameSettings ? (
+                <div>
+                    {props.gameSettings.MAX_PLAYERS}
+                </div>
+            )
+                :
+                ''
+            }
+
         </div>
     )
 }
