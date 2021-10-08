@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Players(props) {
     return (
-        <div className="bg-gray-800 rounded-lg px-6 py-6">
+        <div className="bg-gray-800 rounded-lg px-6 py-6 max-w-md">
             <h1 className="text-white text-3xl"> PLAYERS</h1>
             {props && props.players && props.players.length > 0 ?
                 (

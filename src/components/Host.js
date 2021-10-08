@@ -5,7 +5,7 @@ import { SocketContext } from '../utilities/connect';
 
 export default function Host() {
     const socket = useContext(SocketContext);
-    const [gameCode, setGameCode] = useState('');
+    const [roomCode, setroomCode] = useState('');
     const [gameSettings, setGameSettings] = useState(false);
     const [displaySettings, setDisplaySettings] = useState(false);
     const [username, setUsername] = useState('');
@@ -31,15 +31,14 @@ export default function Host() {
 
 
     useEffect(() => {
-        console.log("generate");
-        socket.emit("generateRoom");
 
         socket.on('connect', () => {
         })
-        socket.on('returnRoomCode', (res) => {
+        socket.on('returnRoomCode', (roomcode, gamesettings) => {
             // When the room code is returned, we are going to set the room code then request the game settings
-            setGameCode(res);
-            socket.emit('viewGameSettings', gameCode);
+            setroomCode(roomcode);
+            setGameSettings(JSON.parse(gamesettings));
+            setDisplaySettings(JSON.parse(gamesettings));
         })
         socket.on('returnGameSettings', (settings) => {
             setDisplaySettings(JSON.parse(settings));
@@ -51,7 +50,7 @@ export default function Host() {
     }, []);
 
     useEffect(() => {
-        socket.emit('updateGameSettings', gameCode, JSON.stringify(gameSettings));
+        socket.emit('updateGameSettings', roomCode, JSON.stringify(gameSettings));
     }, [gameSettings]);
 
     useEffect(() => {
@@ -65,7 +64,7 @@ export default function Host() {
                 submittedName && gameSettings ?
                     <div>
                         <div>
-                            <h1 className="text-white text-4xl"> {gameCode} </h1>
+                            <h1 className="text-white text-4xl"> {roomCode} </h1>
                         </div>
                         <form>
                             Max Players:
@@ -122,13 +121,9 @@ export default function Host() {
                                 Game Mode? - {displaySettings.GAME_MODE}
                             </div>
 
-
-                            <div onClick={(e) => {
-                                e.preventDefault();
-                                socket.emit("viewGameSettings", gameCode);
-                            }}>
-                                test ME!
-                            </div>
+                            <button className="border rounded-lg bg-blue-400 mx-5 px-10 py-5" onClick={() => {
+                                socket.emit("startGame", roomCode);
+                            }}> Start </button>
 
                         </form>
 
@@ -142,9 +137,10 @@ export default function Host() {
                                     const { value, maxLength } = e.target;
                                     setUsername(value.slice(0, maxLength).toUpperCase());
                                 }} ref={lastUsername} />
-                                <label htmlFor="name" className="text-white self-center pl-1"> ({lastUsername.current.maxLength - username.length})</label>
+                                <label htmlFor="name" className="text-white self-center pl-1"> ({8 - username.length})</label>
                                 <button className="border rounded-lg bg-blue-400 mx-5 px-10 py-5" onClick={() => {
-                                    setHostName();
+                                    socket.emit("generateRoom", username);
+                                    setSubmittedName(true);
                                 }}> Host </button>
                             </div>
 

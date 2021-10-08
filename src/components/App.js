@@ -18,7 +18,6 @@ function App() {
     <SocketContext.Provider value={socket} >
       <Router>
         <div className="content">
-          <button onClick={disconnect}>disconnect</button>
           <Switch>
             <Route exact path="/">
               <Login />
