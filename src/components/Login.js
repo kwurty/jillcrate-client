@@ -1,50 +1,76 @@
 // Import basic React components 
-import React, { useContext, useState, useEffect } from 'react';
-// Import router components
-import { Link, Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
 // Import global socket component
-import { SocketContext } from '../utilities/connect';
 
-export default function Login() {
-    // Get the socket
-    const socket = useContext(SocketContext);
+export default function Login({ player, updateplayer }) {
 
-    const [isConnected, setIsConnected] = useState(socket.connected);
-    // const [lastMessage, setLastMessage] = useState(null);
+    let [join, setJoin] = useState(false);
+    let [username, setUsername] = useState('');
+    let [room, setRoom] = useState('');
+    const maxlength = 8;
 
-    useEffect(() => {
-        socket.on('connect', () => {
-            setIsConnected(true);
-        });
-        socket.on('disconnect', (message) => {
-            setIsConnected(false);
-            socket.connect();
-        });
-        return () => {
-            socket.off('connect');
-            socket.off('disconnect');
-            socket.off('message');
-        };
-    });
+    const joinRoom = (roomcode) => {
+        updateplayer({ ...player, name: username, roomcode: room, host: false })
+    }
 
     return (
+
         <div className="w-full min-h-screen flex justify-center items-center flex-col bg-gray-500">
             <h1 className="py-5 text-4xl text-white">Name Game</h1>
-            {isConnected ?
-                (
-                    <div className="">
-                        <Link to="/create"> <button className="rounded border mx-5 px-10 py-5 bg-blue-400 text-white shadow-inner"> Host </button> </Link>
-                        <Link to="/join"><button className="rounded border mx-5 px-10 py-5 bg-blue-400 text-white shadow-inner"> Join </button> </Link>
-                    </div>
-                )
 
-                :
-                (
-                    <div>
-                        Establishing connection...
-                    </div>
-                )
+            {
+                !join ?
+                    (
+                        <div className="">
+                            <button
+                                className="rounded border mx-5 px-10 py-5 bg-blue-400 text-white shadow-inner"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    updateplayer({ ...player, host: true });
+                                }}>
+
+                                Host Game
+
+                            </button>
+                            <button
+                                className="rounded border mx-5 px-10 py-5 bg-blue-400 text-white shadow-inner"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setJoin(true);
+                                }}>
+
+                                Join Game
+
+                            </button>
+                        </div>)
+
+                    :
+
+                    (
+                        <div className="bg-gray-800 rounded-lg px-6 py-6">
+                            <div>
+                                <h1 className="pb-5 text-4xl text-white">Name:</h1>
+                                <div className="">
+                                    <input type="text" id="name" className="rounded-md py-5 w-11/12 uppercase" value={username} maxLength={maxlength} onChange={(e) => {
+                                        const { value } = e.target;
+                                        setUsername(value.slice(0, maxlength).toUpperCase());
+                                    }} />
+                                    <label htmlFor="name" className="text-white"> ({maxlength - username.length})</label>
+                                </div>
+
+                            </div>
+                            <div>
+                                <h1 className="py-5 text-4xl text-white">Enter Room Code:</h1>
+                                <div className="">
+                                    <input type="text" className="rounded-md py-5 uppercase" value={room} onChange={(e) => setRoom(e.target.value)} />
+                                    <button className="rounded border mx-5 px-10 py-5 bg-blue-400 text-white shadow-inner" onClick={(e) => { e.preventDefault(); joinRoom() }}> Join </button>
+                                </div>
+                            </div>
+                        </div>
+                    )
             }
+
+
         </div>
     )
 }
