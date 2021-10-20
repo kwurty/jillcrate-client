@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import Login from './Login';
 import Host from './Host';
 import Game from './Game';
-import Temp from './Temp';
 import Pregame from './Pregame'
 import { socket, SocketContext } from '../utilities/connect';
 
@@ -73,7 +72,6 @@ function App() {
           <Game player={PLAYER} players={PLAYERS} gamesettings={GAMESETTINGS} gamestate={GAMESTATE} />
         )} */}
 
-        <Temp player={PLAYER} />
       </div>
     </SocketContext.Provider>
   )
