@@ -42,10 +42,11 @@ function App() {
       SET_GAMESETTINGS(gamesettings);
     });
     client.on('returnGameSettings', (gamesettings) => {
-      SET_GAMESETTINGS(JSON.parse(gamesettings));
+      console.log('new game settings');
+      SET_GAMESETTINGS(gamesettings);
     });
-    client.on('returnPlayerList', (players) => {
-
+    client.on('returnJoinedRoom', (gamesettings) => {
+      SET_GAMESETTINGS(gamesettings);
     })
   }, [client])
 
@@ -65,7 +66,7 @@ function App() {
         )}
 
         {PLAYER.connected && !GAMESTATE.active && PLAYER.name && (
-          <Pregame player={PLAYER} gamesettings={GAMESETTINGS} players={PLAYERS} updategamesettings={SET_GAMESETTINGS} />
+          <Pregame player={PLAYER} gamesettings={GAMESETTINGS} updategamesettings={SET_GAMESETTINGS} socket={client} />
         )}
 
         {/* {PLAYER.connected && GAMESTATE.active && (

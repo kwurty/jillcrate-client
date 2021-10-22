@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 // Import global socket component
 
-export default function Login({ player, updateplayer }) {
+export default function Login({ player, updateplayer, socket }) {
 
     let [join, setJoin] = useState(false);
     let [username, setUsername] = useState('');
@@ -10,7 +10,8 @@ export default function Login({ player, updateplayer }) {
     const maxlength = 8;
 
     const joinRoom = (roomcode) => {
-        updateplayer({ ...player, name: username, roomcode: room, host: false })
+        updateplayer({ ...player, name: username, room: room, host: false })
+        socket.emit('joinRoom', room, username);
     }
 
     return (
