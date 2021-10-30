@@ -18,9 +18,7 @@ function App() {
   })
   let [GAMESETTINGS, SET_GAMESETTINGS] = useState(undefined)
   let [PLAYERS, SET_PLAYERS] = useState()
-  let [GAMESTATE, SET_GAMESTATE] = useState({
-    active: false,
-  })
+  let [GAMESTATE, SET_GAMESTATE] = useState(null)
   const client = socket
 
   // const SET_GAMESETTINGS_HELPER = (new)
@@ -42,11 +40,13 @@ function App() {
       SET_GAMESETTINGS(gamesettings);
     });
     client.on('returnGameSettings', (gamesettings) => {
-      console.log('new game settings');
       SET_GAMESETTINGS(gamesettings);
     });
     client.on('returnJoinedRoom', (gamesettings) => {
       SET_GAMESETTINGS(gamesettings);
+    })
+    client.on('returnGameState', (gamestate) => {
+      SET_GAMESTATE(gamestate);
     })
   }, [client])
 
@@ -61,17 +61,17 @@ function App() {
         )}
 
         {/* render host */}
-        {PLAYER.connected && !GAMESTATE.active && PLAYER.host && !PLAYER.name && !GAMESETTINGS && (
+        {PLAYER.connected && !GAMESTATE && PLAYER.host && !PLAYER.name && !GAMESETTINGS && (
           <Host socket={client} player={PLAYER} updateplayer={SET_PLAYER} />
         )}
 
-        {PLAYER.connected && !GAMESTATE.active && PLAYER.name && (
+        {PLAYER.connected && !GAMESTATE && PLAYER.name && (
           <Pregame player={PLAYER} gamesettings={GAMESETTINGS} updategamesettings={SET_GAMESETTINGS} socket={client} />
         )}
 
-        {/* {PLAYER.connected && GAMESTATE.active && (
+        {PLAYER.connected && GAMESTATE && (
           <Game player={PLAYER} players={PLAYERS} gamesettings={GAMESETTINGS} gamestate={GAMESTATE} />
-        )} */}
+        )}
 
       </div>
     </SocketContext.Provider>

@@ -10,8 +10,10 @@ export default function Login({ player, updateplayer, socket }) {
     const maxlength = 8;
 
     const joinRoom = (roomcode) => {
-        updateplayer({ ...player, name: username, room: room, host: false })
-        socket.emit('joinRoom', room, username);
+        if (username.length > 0) {
+            updateplayer({ ...player, name: username, room: room, host: false })
+            socket.emit('joinRoom', room, username);
+        }
     }
 
     return (

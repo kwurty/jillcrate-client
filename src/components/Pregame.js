@@ -56,7 +56,17 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
             <div>
                 {
                     !loading && player.host && (
-                        <button> &#8592; </button>
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                let n = gamesettings.GAME_TYPES.indexOf(gamesettings.GAME_MODE)
+                                if (n == 0) {
+                                    updateGameSetting('GAME_MODE', gamesettings.GAME_TYPES[gamesettings.GAME_TYPES.length - 1])
+                                } else {
+                                    updateGameSetting('GAME_MODE', gamesettings.GAME_TYPES[n - 1])
+                                }
+                            }}
+                        > &#8592; </button>
                     )
                 }
                 {
@@ -66,14 +76,29 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                 }
                 {
                     !loading && player.host && (
-                        <button> &#8594; </button>
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                let n = gamesettings.GAME_TYPES.indexOf(gamesettings.GAME_MODE)
+                                if (n == gamesettings.GAME_TYPES.length - 1) {
+                                    updateGameSetting('GAME_MODE', gamesettings.GAME_TYPES[0])
+                                } else {
+                                    updateGameSetting('GAME_MODE', gamesettings.GAME_TYPES[n + 1])
+                                }
+                            }}
+                        > &#8594; </button>
                     )
                 }
             </div>
             <div>
                 {
                     !loading && player.host && gamesettings.GAME_MODE === 'lives' && (
-                        <button> - </button>
+                        <button
+                            disabled={gamesettings.MAX_LIVES <= 1}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                updateGameSetting('MAX_LIVES', (gamesettings.MAX_LIVES - 1));
+                            }}> - </button>
                     )
                 }
                 {
@@ -83,7 +108,12 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                 }
                 {
                     !loading && player.host && gamesettings.GAME_MODE === 'lives' && (
-                        <button> + </button>
+                        <button
+                            disabled={gamesettings.MAX_LIVES >= 20}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                updateGameSetting('MAX_LIVES', (gamesettings.MAX_LIVES + 1));
+                            }}> + </button>
                     )
                 }
 
@@ -91,7 +121,12 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
             <div>
                 {
                     !loading && player.host && (
-                        <button> - </button>
+                        <button
+                            disabled={gamesettings.ANSWER_TIMER <= 5}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                updateGameSetting('ANSWER_TIMER', (gamesettings.ANSWER_TIMER - 5));
+                            }}> - </button>
                     )
                 }
                 {
@@ -101,7 +136,12 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                 }
                 {
                     !loading && player.host && (
-                        <button> + </button>
+                        <button
+                            disabled={gamesettings.ANSWER_TIMER >= 60}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                updateGameSetting('ANSWER_TIMER', (gamesettings.ANSWER_TIMER + 5));
+                            }}> + </button>
                     )
                 }
 
@@ -109,7 +149,8 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
             <div>
                 {
                     !loading && player.host && (
-                        <button>
+                        <button
+                            disabled={gamesettings.PLAYERS.length < 2}>
                             Start Game
                         </button>
                     )
