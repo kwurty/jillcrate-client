@@ -48,6 +48,9 @@ function App() {
     client.on('returnGameState', (gamestate) => {
       SET_GAMESTATE(gamestate);
     })
+    client.on('countdown', (timeleft) => {
+      console.log(`Timeleft - ${timeleft} seconds`);
+    })
   }, [client])
 
 

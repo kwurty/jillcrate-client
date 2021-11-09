@@ -150,7 +150,11 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                 {
                     !loading && player.host && (
                         <button
-                            disabled={gamesettings.PLAYERS.length < 2}>
+                            // disabled={gamesettings.PLAYERS.length < 2}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                socket.emit('startGame', gamesettings.ROOM)
+                            }}>
                             Start Game
                         </button>
                     )
