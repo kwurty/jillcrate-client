@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Login from './Login';
 import Host from './Host';
 import Game from './Game';
@@ -15,11 +15,9 @@ function App() {
     connected: false,
     host: undefined,
     state: 0,
-  })
-  let [GAMESETTINGS, SET_GAMESETTINGS] = useState(undefined)
-  let [PLAYERS, SET_PLAYERS] = useState()
-  let [GAMESTATE, SET_GAMESTATE] = useState(null)
-  const client = socket
+  });
+  let [GAMESETTINGS, SET_GAMESETTINGS] = useState(undefined);
+  const client = socket;
 
   // const SET_GAMESETTINGS_HELPER = (new)
 
@@ -45,9 +43,6 @@ function App() {
     client.on('returnJoinedRoom', (gamesettings) => {
       SET_GAMESETTINGS(gamesettings);
     })
-    client.on('returnGameState', (gamestate) => {
-      SET_GAMESTATE(gamestate);
-    })
     client.on('countdown', (timeleft) => {
       console.log(`Timeleft - ${timeleft} seconds`);
     })
@@ -64,16 +59,17 @@ function App() {
         )}
 
         {/* render host */}
-        {PLAYER.connected && !GAMESTATE && PLAYER.host && !PLAYER.name && !GAMESETTINGS && (
+        {PLAYER.connected && PLAYER.host && !PLAYER.name && !GAMESETTINGS && (
           <Host socket={client} player={PLAYER} updateplayer={SET_PLAYER} />
         )}
 
-        {PLAYER.connected && !GAMESTATE && PLAYER.name && (
+        {PLAYER.connected && PLAYER.name && (
           <Pregame player={PLAYER} gamesettings={GAMESETTINGS} updategamesettings={SET_GAMESETTINGS} socket={client} />
         )}
 
-        {PLAYER.connected && GAMESTATE && (
-          <Game player={PLAYER} players={PLAYERS} gamesettings={GAMESETTINGS} gamestate={GAMESTATE} />
+        {/* do a conditional in component maybe? */}
+        {PLAYER.connected && GAMESETTINGS && GAMESETTINGS.STATUS === 1 && (
+          <Game player={PLAYER} gamesettings={GAMESETTINGS} />
         )}
 
       </div>

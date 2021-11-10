@@ -60,7 +60,7 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                             onClick={(e) => {
                                 e.preventDefault();
                                 let n = gamesettings.GAME_TYPES.indexOf(gamesettings.GAME_MODE)
-                                if (n == 0) {
+                                if (n === 0) {
                                     updateGameSetting('GAME_MODE', gamesettings.GAME_TYPES[gamesettings.GAME_TYPES.length - 1])
                                 } else {
                                     updateGameSetting('GAME_MODE', gamesettings.GAME_TYPES[n - 1])
@@ -80,7 +80,7 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                             onClick={(e) => {
                                 e.preventDefault();
                                 let n = gamesettings.GAME_TYPES.indexOf(gamesettings.GAME_MODE)
-                                if (n == gamesettings.GAME_TYPES.length - 1) {
+                                if (n === gamesettings.GAME_TYPES.length - 1) {
                                     updateGameSetting('GAME_MODE', gamesettings.GAME_TYPES[0])
                                 } else {
                                     updateGameSetting('GAME_MODE', gamesettings.GAME_TYPES[n + 1])
