@@ -1,20 +1,59 @@
 import React, { useState, useEffect } from 'react'
 import { SocketContext } from '../utilities/connect'
+import './Game.css';
+export default function Game({ gamesettings, player, socket }) {
 
-export default function Game({ gamesettings, player }) {
+    let [answer, setAnswer] = useState('');
+    const submitAnswer = (answer) => {
+        socket.emit('submitAnswer', gamesettings.ROOM, answer)
+    }
 
-    if (gamesettings && gamesettings.STATUS && gamesettings.STATUS === 1) {
+    const currentPlayer = () => {
+        if (gamesettings.CURRENT_PLAYER) {
+            return (
+                <div> {gamesettings.PLAYERS[gamesettings.CURRENT_PLAYER]['name']}</div>
+            )
+        }
+    }
+
+
+
+    if (gamesettings) {
         return (
-            <div className="container">
-                GAME STATUS 1
+            <div>
+                <div className="gameboard">
+
+                    {
+                        gamesettings.PLAYERS.map((player, index) => (
+                            <div key={player.id} className={'player' + index}>
+                                {player.name}
+                            </div>
+                        ))}
+
+                    <div className="center">
+                        {
+                            gamesettings.CURRENT_PLAYER ? gamesettings.PLAYERS[gamesettings.CURRENT_PLAYER]['name'] : ""
+                        }
+                    </div>
+                </div>
+                <div className="">
+                    <label htmlFor="answer">Answer:</label>
+                    <input className="border" type="text" name="answer" id="answer" value={answer}
+                        onChange={(e) => {
+                            const { value } = e.target;
+                            setAnswer(value);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                submitAnswer(answer);
+                            }
+                        }} />
+                </div>
             </div>
         )
     } else {
-
         return (
-            <div>
-                NO GAME STATUS OR NOT 1
-            </div>
+            <div></div>
         )
     }
 }

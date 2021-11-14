@@ -6,11 +6,7 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
     let [loading, setLoading] = useState(true)
 
     function updateGameSetting(key, value) {
-        const newGameSettings = {
-            ...gamesettings,
-            [key]: value
-        }
-        socket.emit('updateGameSettings', player.room, newGameSettings);
+        socket.emit('updateGameSettings', player.room, key, value);
     }
 
     useEffect(() => {
@@ -161,6 +157,7 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                 }
 
             </div>
+
             {!loading && gamesettings.PLAYERS && (
                 <Players players={gamesettings.PLAYERS} />
             )
