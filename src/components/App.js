@@ -16,10 +16,12 @@ function App() {
     host: undefined,
     state: 0,
   });
-  let [GAMESETTINGS, SET_GAMESETTINGS] = useState(undefined);
+  const [GAMESETTINGS, SET_GAMESETTINGS] = useState(undefined);
   const client = socket;
 
-  // const SET_GAMESETTINGS_HELPER = (new)
+  let announceWinner = (winner) => {
+    console.dir(GAMESETTINGS);
+  }
 
   // watch for game updates
   useEffect(() => {
@@ -46,13 +48,13 @@ function App() {
     client.on('countdown', (timeleft) => {
       console.log(`Timeleft - ${timeleft} seconds`);
     })
-  }, [client])
 
+  }, [client])
 
   // render the game based on settings
   return (
     <SocketContext.Provider value={socket} >
-      <div>
+      <div className="flex">
         {/* render homescreen */}
         {PLAYER.connected && !PLAYER.name && !PLAYER.host && (
           <Login player={PLAYER} updateplayer={SET_PLAYER} socket={client} />
@@ -68,10 +70,22 @@ function App() {
         )}
 
         {/* do a conditional in component maybe? */}
-        {PLAYER.connected && GAMESETTINGS && GAMESETTINGS.STATUS === 1 && (
-          <Game player={PLAYER} gamesettings={GAMESETTINGS} />
+        {PLAYER.connected && GAMESETTINGS && (
+          <Game player={PLAYER} gamesettings={GAMESETTINGS} socket={client} />
         )}
 
+        <div>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              console.dir(PLAYER)
+            }}>Log Player</button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              console.dir(GAMESETTINGS)
+            }}>Log Gamesettings</button>
+        </div>
       </div>
     </SocketContext.Provider>
   )

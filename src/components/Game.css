@@ -1,0 +1,61 @@
+.gameboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "player0 player1 player2"
+    "player9 center player3"
+    "player8 center player4"
+    "player7 player6 player5";
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  min-width: 800px;
+  height: 88%;
+}
+.player1 {
+  grid-area: player1;
+  min-height: 200px;
+}
+.player2 {
+  grid-area: player2;
+  min-height: 200px;
+}
+.player3 {
+  grid-area: player3;
+  min-height: 200px;
+}
+.player4 {
+  grid-area: player4;
+  min-height: 200px;
+}
+.player5 {
+  grid-area: player5;
+  min-height: 200px;
+}
+.player6 {
+  grid-area: player6;
+  min-height: 200px;
+}
+.player7 {
+  grid-area: player7;
+  min-height: 200px;
+}
+.player8 {
+  grid-area: player8;
+  min-height: 200px;
+}
+.player9 {
+  grid-area: player9;
+  min-height: 200px;
+}
+.player0 {
+  grid-area: player0;
+  min-height: 200px;
+}
+.center {
+  grid-area: center;
+}
