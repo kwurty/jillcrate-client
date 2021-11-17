@@ -46,6 +46,7 @@ export default function Game({ gamesettings, player, socket }) {
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                                 submitAnswer(answer);
+                                setAnswer('');
                             }
                         }} />
                 </div>

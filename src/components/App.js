@@ -44,9 +44,15 @@ function App() {
     });
     client.on('returnJoinedRoom', (gamesettings) => {
       SET_GAMESETTINGS(gamesettings);
-    })
+    });
     client.on('countdown', (timeleft) => {
       console.log(`Timeleft - ${timeleft} seconds`);
+    });
+    client.on('incorrectAnswer', () => {
+      console.log("Wrong answer");
+    });
+    client.on('gameover', (winner) => {
+      console.log("winner", winner);
     })
 
   }, [client])
