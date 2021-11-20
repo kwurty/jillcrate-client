@@ -64,7 +64,7 @@ export default function Join() {
                         <div>
                             <h1 className="py-5 text-4xl text-white">Enter Room Code:</h1>
                             <div className="">
-                                <input type="text" className="rounded-md py-5 uppercase" value={roomToJoin} onChange={(e) => setRoomToJoin(e.target.value)} ref={lastRoom} />
+                                <input type="text" className="rounded-md py-5 uppercase" value={roomToJoin} onChange={(e) => setRoomToJoin(e.target.value.toUpperCase())} ref={lastRoom} />
                                 <button className="rounded border mx-5 px-10 py-5 bg-blue-400 text-white shadow-inner" onClick={() => joinRoom()}> Join </button>
                             </div>
                         </div>

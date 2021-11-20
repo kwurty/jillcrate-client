@@ -33,7 +33,7 @@ export default function Game({ gamesettings, player, socket }) {
                     <div className="center">
                         CURRENT PLAYER:
                         {
-                            gamesettings.CURRENT_PLAYER ? gamesettings.PLAYERS[gamesettings.CURRENT_PLAYER]['name'] : ""
+                            // gamesettings.CURRENT_PLAYER ? gamesettings.PLAYERS[gamesettings.CURRENT_PLAYER]['name'] : ""
                         }
                     </div>
                 </div>
