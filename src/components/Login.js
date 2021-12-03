@@ -1,5 +1,5 @@
 // Import basic React components 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Import global socket component
 
 export default function Login({ player, updateplayer, socket }) {
@@ -11,10 +11,23 @@ export default function Login({ player, updateplayer, socket }) {
 
     const joinRoom = (roomcode) => {
         if (username.length > 0) {
-            updateplayer({ ...player, name: username, room: room, host: false })
             socket.emit('joinRoom', room, username);
         }
     }
+
+    useEffect(() => {
+        socket.on("returnFailedRoomJoin", (message) => {
+            console.log(message);
+        })
+        socket.on("returnJoinedRoom", () => {
+            updateplayer({ ...player, name: username, room: room, host: false })
+        })
+    }, [socket])
+
+    // insert useeffect for the alert message here
+    useEffect(() => {
+
+    })
 
     return (
 

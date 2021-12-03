@@ -1,40 +1,45 @@
 import React, { useState, useEffect } from 'react'
 import { SocketContext } from '../utilities/connect'
 import './Game.css';
+import GameSpot from './BoardSpot';
+
 export default function Game({ gamesettings, player, socket }) {
 
     let [answer, setAnswer] = useState('');
+    let [winner, setWinner] = useState(null);
+    let [gameover, setGameover] = useState(false);
+
+
     const submitAnswer = (answer) => {
         socket.emit('submitAnswer', gamesettings.ROOM, answer)
     }
 
-    const currentPlayer = () => {
-        if (gamesettings.CURRENT_PLAYER) {
-            return (
-                <div> {gamesettings.PLAYERS[gamesettings.CURRENT_PLAYER]['name']}</div>
-            )
-        }
-    }
-
-
-
+    useEffect(() => {
+        socket.on('gameover', (winner) => {
+            setWinner(winner.name);
+            setGameover(true);
+        });
+        socket.on('gamestart', () => {
+            setWinner(null);
+            setGameover(false);
+        });
+    }, [socket])
     if (gamesettings) {
         return (
             <div>
+                <div hidden={gameover}>
+                    <h1>
+                        {winner} WINS
+                    </h1>
+                </div>
                 <div className="gameboard">
-
                     {
                         gamesettings.PLAYERS.map((player, index) => (
-                            <div key={player.id} className={'player' + index}>
-                                {player.name}
-                            </div>
+                            <GameSpot player={player} position={index} socket={socket} currentplayer={gamesettings.CURRENT_PLAYER} key={index}></GameSpot>
                         ))}
 
                     <div className="center">
-                        CURRENT PLAYER:
-                        {
-                            // gamesettings.CURRENT_PLAYER ? gamesettings.PLAYERS[gamesettings.CURRENT_PLAYER]['name'] : ""
-                        }
+
                     </div>
                 </div>
                 <div className="">

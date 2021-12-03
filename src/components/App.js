@@ -48,19 +48,16 @@ function App() {
     client.on('countdown', (timeleft) => {
       console.log(`Timeleft - ${timeleft} seconds`);
     });
-    client.on('incorrectAnswer', () => {
-      console.log("Wrong answer");
-    });
     client.on('gameover', (winner) => {
       console.log("winner", winner);
-    })
+    });
 
   }, [client])
 
   // render the game based on settings
   return (
     <SocketContext.Provider value={socket} >
-      <div className="flex">
+      <div className="w-full min-h-screen flex justify-center items-center flex-col bg-gray-500">
         {/* render homescreen */}
         {PLAYER.connected && !PLAYER.name && !PLAYER.host && (
           <Login player={PLAYER} updateplayer={SET_PLAYER} socket={client} />
@@ -71,7 +68,7 @@ function App() {
           <Host socket={client} player={PLAYER} updateplayer={SET_PLAYER} />
         )}
 
-        {PLAYER.connected && PLAYER.name && (
+        {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
           <Pregame player={PLAYER} gamesettings={GAMESETTINGS} updategamesettings={SET_GAMESETTINGS} socket={client} />
         )}
 
@@ -80,18 +77,6 @@ function App() {
           <Game player={PLAYER} gamesettings={GAMESETTINGS} socket={client} />
         )}
 
-        <div>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              console.dir(PLAYER)
-            }}>Log Player</button>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              console.dir(GAMESETTINGS)
-            }}>Log Gamesettings</button>
-        </div>
       </div>
     </SocketContext.Provider>
   )
