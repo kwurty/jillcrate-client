@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Login from './Login';
 import Host from './Host';
 import Game from './Game';
-import Pregame from './Pregame'
+import Players from './Players';
+import Pregame from './Pregame';
 import { socket, SocketContext } from '../utilities/connect';
 
 
@@ -57,26 +58,34 @@ function App() {
   // render the game based on settings
   return (
     <SocketContext.Provider value={socket} >
-      <div className="w-full min-h-screen flex justify-center items-center flex-col bg-gray-500">
-        {/* render homescreen */}
-        {PLAYER.connected && !PLAYER.name && !PLAYER.host && (
-          <Login player={PLAYER} updateplayer={SET_PLAYER} socket={client} />
-        )}
+      <div className="w-full h-screen flex justify-center items-center flex-row bg-gray-500 gap-1">
 
-        {/* render host */}
-        {PLAYER.connected && PLAYER.host && !PLAYER.name && !GAMESETTINGS && (
-          <Host socket={client} player={PLAYER} updateplayer={SET_PLAYER} />
-        )}
+        <div className="">
+          {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
+            <Pregame player={PLAYER} gamesettings={GAMESETTINGS} updategamesettings={SET_GAMESETTINGS} socket={client} />
+          )}
+        </div>
+        <div className="flex-grow h-100 bg-gray-500">
+          {/* render homescreen */}
+          {PLAYER.connected && !PLAYER.name && !PLAYER.host && (
+            <Login player={PLAYER} updateplayer={SET_PLAYER} socket={client} />
+          )}
 
-        {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
-          <Pregame player={PLAYER} gamesettings={GAMESETTINGS} updategamesettings={SET_GAMESETTINGS} socket={client} />
-        )}
-
-        {/* do a conditional in component maybe? */}
-        {PLAYER.connected && GAMESETTINGS && (
-          <Game player={PLAYER} gamesettings={GAMESETTINGS} socket={client} />
-        )}
-
+          {/* render host */}
+          {PLAYER.connected && PLAYER.host && !PLAYER.name && !GAMESETTINGS && (
+            <Host socket={client} player={PLAYER} updateplayer={SET_PLAYER} />
+          )}
+          {/* do a conditional in component maybe? */}
+          {PLAYER.connected && GAMESETTINGS && (
+            <Game player={PLAYER} gamesettings={GAMESETTINGS} socket={client} />
+          )}
+        </div>
+        <div className="">
+          {PLAYER.connected && GAMESETTINGS && (
+            <Players players={GAMESETTINGS.PLAYERS} />
+          )
+          }
+        </div>
       </div>
     </SocketContext.Provider>
   )

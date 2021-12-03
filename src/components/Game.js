@@ -26,7 +26,7 @@ export default function Game({ gamesettings, player, socket }) {
     }, [socket])
     if (gamesettings) {
         return (
-            <div>
+            <div className="border border-gray-800 mx-4 my-4 py-5 h-screen">
                 <div hidden={gameover}>
                     <h1>
                         {winner} WINS

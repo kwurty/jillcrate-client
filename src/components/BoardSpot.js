@@ -31,6 +31,7 @@ export default function BoardSpot({ player, position, socket }) {
 
     return (
         <div key={player.id} className={'bg-gray-800 rounded-lg px-6 py-6 max-w-md items-center text-white relative player' + position}>
+
             <div className="block">
                 <div className="text-center">
                     {player.name}
@@ -43,7 +44,7 @@ export default function BoardSpot({ player, position, socket }) {
                 </div>
             </div>
             {/* overlays */}
-            <div className={`absolute w-full h-full top-0 bottom-0 left-0 right-0 opacity-60 rounded-lg transition-all ease-out duration-75 ${isWrong ? "bg-red-500 opacity-85" : isCorrect ? "bg-green-500 opacity-85" : "opacity-0"}`} id="incorrect">
+            <div className={`absolute w-full h-full top-0 bottom-0 left-0 right-0 opacity-60 rounded-lg transition-all ease-out duration-75 ${isWrong ? "bg-red-500 opacity-85" : isCorrect ? "bg-green-500 opacity-85" : player.lives < 1 ? 'bg-gray-600 opacity-75' : "opacity-0"}`} id="incorrect">
                 <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-4xl transition-opacity ease-out duration-75 text-black opacity ${isWrong ? "visible" : "hidden"} `} id="incorrect">&#10060;</div>
                 <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-4xl transition-opacity ease-out duration-75 text-black ${isCorrect ? "visible" : "hidden"}`} id="correct">&#10004;</div>
             </div>
