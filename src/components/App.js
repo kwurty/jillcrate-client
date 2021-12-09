@@ -4,6 +4,7 @@ import Host from './Host';
 import Game from './Game';
 import Players from './Players';
 import Pregame from './Pregame';
+import Howtoplay from './Howtoplay';
 import { socket, SocketContext } from '../utilities/connect';
 
 
@@ -17,6 +18,8 @@ function App() {
     host: undefined,
     state: 0,
   });
+
+  const [HELP_VISIBLE, SET_HELP_VISIBLE] = useState(false);
   const [GAMESETTINGS, SET_GAMESETTINGS] = useState(undefined);
   const client = socket;
 
@@ -34,16 +37,13 @@ function App() {
     client.on('disconnect', () => {
       SET_PLAYER({ ...PLAYER, connected: false })
     });
-    client.once('returnRoomCode', (roomcode, gamesettings) => {
+    client.once('returnRoomCode', (roomcode, username, gamesettings) => {
       SET_PLAYER((player) => {
-        return { ...player, room: roomcode }
+        return { ...player, room: roomcode, name: username }
       });
       SET_GAMESETTINGS(gamesettings);
     });
     client.on('returnGameSettings', (gamesettings) => {
-      SET_GAMESETTINGS(gamesettings);
-    });
-    client.on('returnJoinedRoom', (gamesettings) => {
       SET_GAMESETTINGS(gamesettings);
     });
     client.on('countdown', (timeleft) => {
@@ -59,13 +59,26 @@ function App() {
   return (
     <SocketContext.Provider value={socket} >
       <div className="w-full h-screen flex justify-center items-center flex-row bg-gray-500 gap-1">
+        <Howtoplay visible={HELP_VISIBLE} setVisible={SET_HELP_VISIBLE} />
+        {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
+          <div className="pl-3 flex flex-col justify-start h-full items-center">
+            {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
+              <Pregame player={PLAYER} gamesettings={GAMESETTINGS} updategamesettings={SET_GAMESETTINGS} socket={client} />
+            )}
+            {PLAYER.connected && GAMESETTINGS && (
+              <Players players={GAMESETTINGS.PLAYERS} />
+            )
+            }
+            {PLAYER.connected && GAMESETTINGS && (
+              <button onClick={(e) => {
+                e.preventDefault();
+                SET_HELP_VISIBLE(true);
+              }}> How to play</button>
+            )}
+          </div>
 
-        <div className="">
-          {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
-            <Pregame player={PLAYER} gamesettings={GAMESETTINGS} updategamesettings={SET_GAMESETTINGS} socket={client} />
-          )}
-        </div>
-        <div className="flex-grow h-100 bg-gray-500">
+        )}
+        <div className="flex-grow min-h-full bg-gray-500">
           {/* render homescreen */}
           {PLAYER.connected && !PLAYER.name && !PLAYER.host && (
             <Login player={PLAYER} updateplayer={SET_PLAYER} socket={client} />
@@ -79,12 +92,6 @@ function App() {
           {PLAYER.connected && GAMESETTINGS && (
             <Game player={PLAYER} gamesettings={GAMESETTINGS} socket={client} />
           )}
-        </div>
-        <div className="">
-          {PLAYER.connected && GAMESETTINGS && (
-            <Players players={GAMESETTINGS.PLAYERS} />
-          )
-          }
         </div>
       </div>
     </SocketContext.Provider>

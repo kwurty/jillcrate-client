@@ -20,9 +20,6 @@ export default function Host({ socket, player, updateplayer }) {
                         <label htmlFor="name" className="text-white self-center pl-1"> ({maxlength - username.length})</label>
                         <button className="border rounded-lg bg-blue-400 mx-5 px-10 py-5" onClick={(e) => {
                             e.preventDefault();
-                            updateplayer((player) => {
-                                return { ...player, name: username }
-                            });
                             socket.emit('generateRoom', username);
                         }}> Host </button>
                     </div>

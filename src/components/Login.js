@@ -29,8 +29,10 @@ export default function Login({ player, updateplayer, socket }) {
 
             return () => clearTimeout(timer);
         })
-        socket.on("returnJoinedRoom", () => {
-            updateplayer({ ...player, name: username, room: room, host: false })
+        socket.on("returnJoinedRoom", (room, name) => {
+            console.log(room, username);
+
+            updateplayer({...player, room, name, host:false});
         })
     }, [socket])
 

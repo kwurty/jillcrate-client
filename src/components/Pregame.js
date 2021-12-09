@@ -14,13 +14,17 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
     }, [gamesettings])
     return (
 
-        <div className="h-screen">
+        <div className="pt-4 pb-4">
             {!loading && player.room && (
-                <h1 className="text-black text-4xl"> {player.room} </h1>
+                <div className="flex flex-col gap-0">
+
+                    <div className="text-white p-0 m-0"> Room Code:</div>
+                    <div className="text-white m-0 p-0"> {player.room} </div>
+                </div>
             )}
-            <div className="flex flex-col gap-1 max-w-xl px-4 bg-gray-800 rounded-lg ">
+            <div className="flex flex-col gap-1 max-w-xl w-100 px-4 bg-gray-800 rounded-lg py-4">
                 <h2 className="text-white text-m p-0 m-0"> Max Players:</h2>
-                <div className="flex justify-between rounded-full bg-gray-600">
+                <div className={`flex rounded-full bg-gray-600 ${player.host ? 'justify-between' : 'justify-center'}`}>
 
                     {
                         !loading && player.host && (
@@ -53,7 +57,7 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                     }
                 </div>
                 <h2 className="text-white text-m p-0 m-0"> Game mode:</h2>
-                <div className="flex justify-between align-middle rounded-full bg-gray-600">
+                <div className={`flex rounded-full bg-gray-600 ${player.host ? 'justify-between' : 'justify-center'}`}>
                     {
                         !loading && player.host && (
                             <button
@@ -100,7 +104,7 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                         <h2 className="text-white text-m p-0 m-0"> Lives:</h2>
                     )
                 }
-                <div className="flex justify-between rounded-full bg-gray-600">
+                <div className={`flex rounded-full bg-gray-600 ${player.host ? 'justify-between' : 'justify-center'}`}>
                     {
                         !loading && player.host && gamesettings.GAME_MODE === 'lives' && (
                             <button
@@ -132,7 +136,7 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                 </div>
 
                 <h2 className="text-white text-m p-0 m-0"> Time to Answer:</h2>
-                <div className="flex justify-between rounded-full bg-gray-600">
+                <div className={`flex rounded-full bg-gray-600 ${player.host ? 'justify-between' : 'justify-center'}`}>
                     {
                         !loading && player.host && (
                             <button
@@ -162,9 +166,9 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                     }
 
                 </div>
-                <div className="py-5">
-                    {
-                        !loading && player.host && (
+                {
+                    !loading && player.host && (
+                        <div className="py-5">
                             <button
                                 className="rounded border mx-5 px-10 py-5 bg-blue-400 border-gray-500 text-white shadow-inner"
                                 disabled={gamesettings.PLAYERS.length < 2 || gamesettings.STATUS !== 0}
@@ -174,10 +178,10 @@ export default function Pregame({ player, gamesettings, updategamesettings, sock
                                 }}>
                                 Start Game
                             </button>
-                        )
-                    }
+                        </div>
+                    )
+                }
 
-                </div>
             </div>
         </div>
     )
