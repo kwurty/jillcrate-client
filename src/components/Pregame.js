@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Players from './Players';
 
 export default function Pregame({ player, gamesettings, updategamesettings, socket }) {
 

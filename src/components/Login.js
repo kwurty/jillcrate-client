@@ -30,9 +30,7 @@ export default function Login({ player, updateplayer, socket }) {
             return () => clearTimeout(timer);
         })
         socket.on("returnJoinedRoom", (room, name) => {
-            console.log(room, username);
-
-            updateplayer({...player, room, name, host:false});
+            updateplayer({ ...player, room, name, host: false });
         })
     }, [socket])
 
@@ -93,7 +91,11 @@ export default function Login({ player, updateplayer, socket }) {
                                             <input type="text" id="name" className="rounded-md py-5 w-11/12 uppercase" value={username} maxLength={maxlength} onChange={(e) => {
                                                 const { value } = e.target;
                                                 setUsername(value.slice(0, maxlength).toUpperCase());
-                                            }} />
+                                            }}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'enter') joinRoom();
+                                                }}
+                                            />
                                             <label htmlFor="name" className="text-white"> ({maxlength - username.length})</label>
                                         </div>
 
@@ -101,8 +103,13 @@ export default function Login({ player, updateplayer, socket }) {
                                     <div>
                                         <h1 className="py-5 text-4xl text-white">Enter Room Code:</h1>
                                         <div className="">
-                                            <input type="text" className="rounded-md py-5 uppercase" value={room} onChange={(e) => setRoom(e.target.value.toUpperCase())} />
-                                            <button className="rounded border mx-5 px-10 py-5 bg-blue-400 text-white shadow-inner" onClick={(e) => { e.preventDefault(); joinRoom() }}> Join </button>
+                                            <input type="text" className="rounded-md py-5 uppercase" value={room}
+                                                onChange={(e) => setRoom(e.target.value.toUpperCase())}
+                                                onKeyDown={(e) => { if (e.key === 'Enter') joinRoom(); }} />
+                                            <button className="rounded border mx-5 px-10 py-5 bg-blue-400 text-white shadow-inner"
+                                                onClick={(e) => { e.preventDefault(); joinRoom() }}>
+                                                Join
+                                            </button>
                                         </div>
                                     </div>
 

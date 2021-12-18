@@ -44,37 +44,37 @@ export default function Howtoplay({ visible, setVisible }) {
                       Game Instructions
                     </Dialog.Title>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-500">
                         The game starts with the first player submitting the name of someone famous.
-                        <p className="py-2">
+                        <div className="py-2">
                           The next player then must say the name of a famous person whose first name starts with the same letter as the previously stated famous person’s last name starts with.
-                          <p className="my-4 pl-2 italic border-l-4 bg-neutral-100 text-neutral-600 border-neutral-500 quote">
+                          <div className="my-4 pl-2 italic border-l-4 bg-neutral-100 text-neutral-600 border-neutral-500 quote">
                             e.g.<br />
                             Player 1 : Michael Jackson
                             <br />
                             Player 2 : John Cena
                             <br />
                             Player 3 : Chris Hanson
-                          </p>
-                        </p>
-                        <p className="pb-2">
+                          </div>
+                        </div>
+                        <div className="pb-2">
                           If a a player does not submit a valid name in the alotted time, they will be docked a life and play will move on to the next player.
-                        </p>
-                        <p className="py-2">
+                        </div>
+                        <div className="py-2">
                           If a player submits a name where the first and last name begins with the <strong>same letter</strong> (e.g. Ronald Reagan, Jack Johnson), the direction of play reverses.
-                        </p>
-                      </p>
+                        </div>
+                      </div>
                       <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
                         Game Settings
                       </Dialog.Title>
-                      <p className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-500">
                         <ol>
                           <li className="py-1"> <strong>Max Players </strong>- The maximum amount of players allowed in the game.</li>
                           <li className="py-1"> <strong>Game Mode</strong> - Playing in Lives is an elimination mode where the last player standing wins. Continuous mode does not eliminate players upon wrong answers.</li>
                           <li className="py-1"> <strong>Max Lives</strong> - When playing in Lives mode, this will dictate how many lives each player has at the beginning of the game.</li>
                           <li className="py-1"> <strong>Time to Answer</strong> - The amount of time (in seconds) a user has to submit an answer.</li>
                         </ol>
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>

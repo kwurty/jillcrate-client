@@ -5,7 +5,7 @@ import Game from './Game';
 import Players from './Players';
 import Pregame from './Pregame';
 import Howtoplay from './Howtoplay';
-import { socket, SocketContext } from '../utilities/connect';
+import { socket } from '../utilities/connect';
 
 
 function App() {
@@ -22,10 +22,6 @@ function App() {
   const [HELP_VISIBLE, SET_HELP_VISIBLE] = useState(false);
   const [GAMESETTINGS, SET_GAMESETTINGS] = useState(undefined);
   const client = socket;
-
-  let announceWinner = (winner) => {
-    console.dir(GAMESETTINGS);
-  }
 
   // watch for game updates
   useEffect(() => {
@@ -47,17 +43,14 @@ function App() {
       SET_GAMESETTINGS(gamesettings);
     });
     client.on('countdown', (timeleft) => {
-      console.log(`Timeleft - ${timeleft} seconds`);
-    });
-    client.on('gameover', (winner) => {
-      console.log("winner", winner);
+
     });
 
-  }, [client])
+  }, [client, PLAYER])
 
   // render the game based on settings
   return (
-    <SocketContext.Provider value={socket} >
+    <div>
       <div className="w-full h-screen flex justify-center items-center flex-row bg-gray-500 gap-1">
         <Howtoplay visible={HELP_VISIBLE} setVisible={SET_HELP_VISIBLE} />
         {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
@@ -94,7 +87,7 @@ function App() {
           )}
         </div>
       </div>
-    </SocketContext.Provider>
+    </div>
   )
 }
 export default App;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { SocketContext } from '../utilities/connect'
 import './Game.css';
 import GameSpot from './BoardSpot';
 
@@ -7,13 +6,11 @@ export default function Game({ gamesettings, player, socket }) {
 
     let [answer, setAnswer] = useState('');
     let [winner, setWinner] = useState(null);
+    let [textToShow, setTextToShow] = useState('');
     let [gameover, setGameover] = useState(false);
 
-    console.log(player, gamesettings, player.id === gamesettings.PLAYERS[0].id);
-
-
     const submitAnswer = (answer) => {
-        socket.emit('submitAnswer', gamesettings.ROOM, answer)
+        socket.emit('submitAnswer', gamesettings.ROOM, answer);
     }
 
     useEffect(() => {
@@ -25,6 +22,21 @@ export default function Game({ gamesettings, player, socket }) {
             setWinner(null);
             setGameover(false);
         });
+        socket.on('pregameCountdown', (timeleft) => {
+            setTextToShow(`Game starts in ${timeleft}`);
+            if (timeleft === 1) {
+                const timer = setTimeout(() => {
+                    setTextToShow("");
+                }, 1000);
+                return () => clearTimeout(timer);
+            }
+        })
+        socket.on('correctAnswer', (currentplayer, firstname, lastname) => {
+            setTextToShow(`Last Answer: ${firstname} ${lastname}`);
+        })
+        socket.on('timeover', () => {
+            setAnswer("");
+        });
     }, [socket])
     if (gamesettings) {
         return (
@@ -32,7 +44,7 @@ export default function Game({ gamesettings, player, socket }) {
                 <div className="gameboard">
                     {
                         gamesettings.PLAYERS.map((player, index) => (
-                            <GameSpot player={player} position={index} socket={socket} currentplayer={gamesettings.CURRENT_PLAYER} key={index}></GameSpot>
+                            <GameSpot setanswer={setAnswer} player={player} position={index} socket={socket} currentplayer={gamesettings.CURRENT_PLAYER} key={index}></GameSpot>
                         ))}
 
                     <div className="center">
@@ -40,7 +52,6 @@ export default function Game({ gamesettings, player, socket }) {
                             <div className="flex flex-col">
                                 <h1 className="self-center text-white text-4xl">
                                     {winner} WINS
-                                    {console.log(player)}
                                 </h1>
                                 {player.host ? (
                                     <button className="rounded border mx-5 px-5 py-2 mt-5 bg-blue-400 border-gray-500 text-white shadow-inner" onClick={(e) => {
@@ -50,18 +61,15 @@ export default function Game({ gamesettings, player, socket }) {
                                 ) : ""}
                             </div>
                         )}
-                        {gamesettings.STATUS === 1 && (
+                        {!gameover && (
                             <div>
-                                Game starting in {gamesettings.TIME_LEFT}
-                            </div>
-                        )}
-                        {gamesettings.STATUS === 2 && (
-                            <div>
-                                Last Name: {gamesettings.LAST_ANSWER}
+                                {textToShow}
                             </div>
                         )}
                         <div>
-
+                            {!gameover && gamesettings.TIME_LEFT && (
+                                <div> {gamesettings.TIME_LEFT}</div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -71,7 +79,7 @@ export default function Game({ gamesettings, player, socket }) {
                         <div className="self-center">
 
                             <label htmlFor="answer" className="text-white text-2xl px-2 justify-center self-center" disabled={false}>Answer:</label>
-                            <input className="border rounded-md h-12" type="text" name="answer" id="answer" value={answer}
+                            <input className="border rounded-md h-12 w-80" type="text" name="answer" id="answer" value={answer}
                                 onChange={(e) => {
                                     const { value } = e.target;
                                     setAnswer(value);

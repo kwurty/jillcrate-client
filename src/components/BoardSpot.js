@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import heart from '../images/heart.png'
 
-export default function BoardSpot({ player, position, socket }) {
+export default function BoardSpot({ player, position, socket, currentplayer, setanswer }) {
 
     const [isWrong, setIsWrong] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
@@ -16,6 +16,7 @@ export default function BoardSpot({ player, position, socket }) {
         socket.on('correctAnswer', (currentplayer) => {
             if (currentplayer === position) {
                 setIsCorrect(true);
+                setanswer("");
             }
         });
     }, [socket])
@@ -30,7 +31,7 @@ export default function BoardSpot({ player, position, socket }) {
     }, [isWrong, isCorrect])
 
     return (
-        <div key={player.id} className={'bg-gray-800 rounded-lg px-6 py-6 max-w-md items-center text-white relative player' + position}>
+        <div key={player.id} className={`bg-gray-800 rounded-lg px-6 py-6 max-w-md items-center text-white relative player${position} ${currentplayer === position ? 'border border-cyan-500' : ''}`}>
 
             <div className="block">
                 <div className="text-center">
