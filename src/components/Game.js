@@ -61,16 +61,23 @@ export default function Game({ gamesettings, player, socket }) {
                                 ) : ""}
                             </div>
                         )}
+                        <div className="text-white">
+                            {!gameover && Number.isInteger(gamesettings.TIME_LEFT) && (
+                                <div className="flex gap-5 justify-center w-full h-full">
+                                    <span className="align-text-bottom pt-4 mr-3">
+                                        Timeleft:
+                                    </span>
+                                    <span className="text-white text-4xl text-center align-middle">
+                                        {gamesettings.TIME_LEFT}
+                                    </span></div>
+                            )}
+                        </div>
                         {!gameover && (
-                            <div>
+                            <div className="text-white text-2xl bg-gray-800 px-5 py-5 mb-6 rounded-lg text-center">
                                 {textToShow}
                             </div>
                         )}
-                        <div>
-                            {!gameover && gamesettings.TIME_LEFT && (
-                                <div> {gamesettings.TIME_LEFT}</div>
-                            )}
-                        </div>
+
                     </div>
                 </div>
                 <div className="flex justify-center bg-gray-800 rounded-lg h-24" >

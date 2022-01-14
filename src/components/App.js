@@ -50,8 +50,8 @@ function App() {
 
   // render the game based on settings
   return (
-    <div>
-      <div className="w-full h-screen flex justify-center items-center flex-row bg-gray-500 gap-1">
+    <div className="w-full h-screen flex justify-center bg-gray-800">
+      <div className="container h-screen flex justify-center self-center items-center flex-row bg-gray-500 gap-1">
         <Howtoplay visible={HELP_VISIBLE} setVisible={SET_HELP_VISIBLE} />
         {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
           <div className="pl-3 flex flex-col justify-start h-full items-center">
