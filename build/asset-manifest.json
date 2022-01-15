@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/jillcrate-client/static/css/main.d8819830.chunk.css",
+    "main.js": "/jillcrate-client/static/js/main.564ab619.chunk.js",
+    "main.js.map": "/jillcrate-client/static/js/main.564ab619.chunk.js.map",
+    "runtime-main.js": "/jillcrate-client/static/js/runtime-main.a0a830ac.js",
+    "runtime-main.js.map": "/jillcrate-client/static/js/runtime-main.a0a830ac.js.map",
+    "static/js/2.65c3e001.chunk.js": "/jillcrate-client/static/js/2.65c3e001.chunk.js",
+    "static/js/2.65c3e001.chunk.js.map": "/jillcrate-client/static/js/2.65c3e001.chunk.js.map",
+    "index.html": "/jillcrate-client/index.html",
+    "static/css/main.d8819830.chunk.css.map": "/jillcrate-client/static/css/main.d8819830.chunk.css.map",
+    "static/js/2.65c3e001.chunk.js.LICENSE.txt": "/jillcrate-client/static/js/2.65c3e001.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a0a830ac.js",
+    "static/js/2.65c3e001.chunk.js",
+    "static/css/main.d8819830.chunk.css",
+    "static/js/main.564ab619.chunk.js"
+  ]
+}
