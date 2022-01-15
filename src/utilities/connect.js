@@ -2,7 +2,7 @@ import io from 'socket.io-client'
 import React from 'react';
 
 // Gather user to connect to
-const URL = 'https://itsthenamegame.herokuapp.com:5000'
+const URL = 'https://itsthenamegame.herokuapp.com:3000'
 
 // Connect to socket and assign to socket variable
 const socket = io(URL, {
