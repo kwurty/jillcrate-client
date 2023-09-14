@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Login from './Login';
-import Host from './Host';
 import Game from './Game';
 import Players from './Players';
 import Pregame from './Pregame';
@@ -50,8 +49,8 @@ function App() {
 
   // render the game based on settings
   return (
-    <div className="w-full h-screen flex justify-center bg-gray-800">
-      <div className="container h-screen flex justify-center self-center items-center flex-row bg-gray-500 gap-1">
+      <main className="w-screen h-screen flex justify-center self-center items-center flex-row gap-1 styledBackground">
+
         <Howtoplay visible={HELP_VISIBLE} setVisible={SET_HELP_VISIBLE} />
         {PLAYER.connected && PLAYER.name && GAMESETTINGS && GAMESETTINGS.STATUS === 0 && (
           <div className="pl-3 flex flex-col justify-start h-full items-center">
@@ -71,23 +70,31 @@ function App() {
           </div>
 
         )}
-        <div className="flex-grow min-h-full bg-gray-500">
-          {/* render homescreen */}
-          {PLAYER.connected && !PLAYER.name && !PLAYER.host && (
-            <Login player={PLAYER} updateplayer={SET_PLAYER} socket={client} />
-          )}
+{
+  PLAYER.connected && !GAMESETTINGS && (
+<div className="bg-blue-chill-800 max-w-lg min-w-0 border border-white border-dashed">
 
-          {/* render host */}
-          {PLAYER.connected && PLAYER.host && !PLAYER.name && !GAMESETTINGS && (
-            <Host socket={client} player={PLAYER} updateplayer={SET_PLAYER} />
+{/* render homescreen */}
+{PLAYER.connected && !PLAYER.name && (
+  <Login player={PLAYER} updateplayer={SET_PLAYER} socket={client} />
+)}
+
+{/* render host */}
+{/* {PLAYER.connected && PLAYER.host && !PLAYER.name && !GAMESETTINGS && (
+  <Host socket={client} player={PLAYER} updateplayer={SET_PLAYER} />
+)} */}
+{/* do a conditional in component maybe? */}
+
+</div>
+  )
+}
+
+{PLAYER.connected && GAMESETTINGS && (
+  <div className='container align-top self-start mt-5'>
+    <Game player={PLAYER} gamesettings={GAMESETTINGS} socket={client} />
+  </div>
           )}
-          {/* do a conditional in component maybe? */}
-          {PLAYER.connected && GAMESETTINGS && (
-            <Game player={PLAYER} gamesettings={GAMESETTINGS} socket={client} />
-          )}
-        </div>
-      </div>
-    </div>
+      </main>
   )
 }
 export default App;

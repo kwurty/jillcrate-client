@@ -31,10 +31,10 @@ export default function BoardSpot({ player, position, socket, currentplayer, set
     }, [isWrong, isCorrect])
 
     return (
-        <div key={player.id} className={`bg-gray-800 rounded-lg px-6 py-6 max-w-md items-center text-white relative player${position} ${currentplayer === position ? 'border border-cyan-500' : ''}`}>
+        <div key={player.id} className={`bg-blue-chill-500 rounded-full px-4 py-4 max-w-md items-center text-white relative player${position} ${currentplayer === position ? 'border border-blue-chill-500' : ''}`}>
 
             <div className="block">
-                <div className="text-center">
+                <div className="text-center text-2xl overflow-clip text-ellipsis">
                     {player.name}
                 </div>
                 <div className="flex flex-row">

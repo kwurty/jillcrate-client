@@ -40,7 +40,7 @@ export default function Game({ gamesettings, player, socket }) {
     }, [socket])
     if (gamesettings) {
         return (
-            <div className="border border-gray-800 px-3 mx-4 my-4 py-5 min-h-full">
+            <div className="bg-blue-chill-800">
                 <div className="gameboard">
                     {
                         gamesettings.PLAYERS.map((player, index) => (
@@ -72,7 +72,7 @@ export default function Game({ gamesettings, player, socket }) {
                                     </span></div>
                             )}
                         </div>
-                        {!gameover && (
+                        {!gameover && textToShow && (
                             <div className="text-white text-2xl bg-gray-800 px-5 py-5 mb-6 rounded-lg text-center">
                                 {textToShow}
                             </div>
@@ -86,7 +86,7 @@ export default function Game({ gamesettings, player, socket }) {
                         <div className="self-center">
 
                             <label htmlFor="answer" className="text-white text-2xl px-2 justify-center self-center" disabled={false}>Answer:</label>
-                            <input className="border rounded-md h-12 w-80" type="text" name="answer" id="answer" value={answer}
+                            <input autocomplete="off" className="border rounded-md h-12 w-80" type="text" name="answer" id="answer" value={answer}
                                 onChange={(e) => {
                                     const { value } = e.target;
                                     setAnswer(value);
@@ -97,7 +97,7 @@ export default function Game({ gamesettings, player, socket }) {
                                         setAnswer('');
                                     }
                                 }} />
-                            <button className="rounded-lg bg-blue-500 text-white px-4 h-12 ml-4"
+                            <button className="rounded-lg bg-blue-chill-900 text-white px-4 h-12 ml-4"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     submitAnswer(answer);
